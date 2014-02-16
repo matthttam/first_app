@@ -27,6 +27,8 @@ GEM
       tzinfo (~> 0.3.37)
     arel (4.0.2)
     atomic (1.1.14)
+    bootstrap-sass (3.1.1.0)
+      sass (~> 3.2)
     builder (3.1.4)
     capybara (2.2.1)
       mime-types (>= 1.16)
@@ -189,6 +191,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  bootstrap-sass (~> 3.1.1)
   capybara (= 2.2.1)
   childprocess
   coffee-rails (= 4.0.1)
@@ -200,7 +203,7 @@ DEPENDENCIES
   mysql2
   rails (= 4.0.2)
   rspec-rails (= 2.14.1)
-  sass-rails (= 4.0.1)
+  sass-rails (>= 3.2)
   sdoc (= 0.4.0)
   selenium-webdriver (= 2.39.0)
   spork-rails
