@@ -1,12 +1,17 @@
-require 'rubygems'
-require 'spork'
 
-Spork.prefork do
-  rubymine_home = '/home/matt/Desktop/RubyMine-6.0.3/'
-  if rubymine_home
-    $:.unshift(File.expand_path('rb/testing/patch/common', rubymine_home))
-    $:.unshift(File.expand_path('rb/testing/patch/bdd', rubymine_home))
-  end
+
+### UNCOMMENT IF USING SPORK ###
+#require 'rubygems'
+#require 'spork'
+
+### UNCOMENT IF USING SPORK ###
+
+#Spork.prefork do
+  #rubymine_home = '/home/matt/Desktop/RubyMine-6.0.3/'
+  #if rubymine_home
+  #  $:.unshift(File.expand_path('rb/testing/patch/common', rubymine_home))
+  #  $:.unshift(File.expand_path('rb/testing/patch/bdd', rubymine_home))
+  #end
   ENV['RAILS_ENV'] ||= 'test'
   require File.expand_path('../../config/environment', __FILE__)
   require 'rspec/rails'
@@ -50,9 +55,12 @@ Spork.prefork do
     config.order = "random"
     config.include Capybara::DSL
   end
-end
 
-Spork.each_run do
+#end
+
+
+### UNCOMMENT IF USING SPORK ###
+#Spork.each_run do
   # This code will be run each time you run your specs.
 
-end
+#end
