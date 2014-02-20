@@ -10,6 +10,14 @@ $gray-medium-light: #eaeaea;
   box-sizing: border-box;
 }
 
+@mixin border-radius($radius) {
+  -webkit-border-radius: $radius;
+  -moz-border-radius: $radius;
+  -ms-border-radius: $radius;
+  -o-border-radius: $radius;
+  border-radius: $radius;
+}
+
 /* universal */
 
 html {
@@ -107,6 +115,20 @@ footer {
   }
 }
 
+#error_explanation {
+  color: #f00;
+  ul {
+    list-style: none;
+    margin: 0 0 18px 0;
+  }
+}
+
+.field_with_errors {
+  //@extend .control-group;
+  //@extend .error;
+  @extend .has-error;
+}
+
 /* miscellaneous */
 
 .debug_dump {
@@ -145,4 +167,19 @@ aside {
 .gravatar {
   float: left;
   margin-right: 10px;
+}
+
+/* forms */
+
+input, textarea, select, .uneditable-input {
+  border: 1px solid #bbb;
+  width: 100%;
+  margin-bottom: 15px;
+  @include box_sizing;
+}
+
+input {
+  @include border-radius(5px);
+  height: 30px;
+  //height: auto !important;
 }
