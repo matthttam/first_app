@@ -35,11 +35,12 @@ describe "UserPages" do
     end
 
     describe "with valid information" do
+      let(:user) { FactoryGirl.create(:user) }
       before do
-        fill_in "Name",         with: "Example User"
-        fill_in "Email",        with: "user@example.com"
-        fill_in "Password",     with: "foobar"
-        fill_in "Confirmation", with: "foobar"
+        fill_in "Name",         with: user.name
+        fill_in "Email",        with: user.email
+        fill_in "Password",     with: user.password
+        fill_in "Confirmation", with: user.password_confirmation
       end
 
       it "should create a user" do
@@ -48,8 +49,9 @@ describe "UserPages" do
 
       describe "after saving the user" do
         before { click_button submit }
-        let(:user) { User.find_by(email: 'user@example.com' )}
+        let(:user) { User.find_by_email('user@example.com' ) }
 
+        it { should have_link('Sign out') }
         it { should have_title(user.name) }
         it { should have_selector('div.alert.alert-success', text: 'Welcome') }
       end
