@@ -4,6 +4,7 @@ source 'https://rubygems.org'
 ruby '2.1.0'
 gem 'rails', '4.0.2'
 gem 'bootstrap-sass'
+#gem 'bootstrap_form' #https://github.com/bootstrap-ruby/rails-bootstrap-forms
 gem 'bcrypt-ruby'
 
 

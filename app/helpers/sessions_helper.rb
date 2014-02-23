@@ -1,8 +1,14 @@
 module SessionsHelper
 
-  def sign_in(user)
+  def sign_in(user, permanent_login = '0')
     remember_token = User.new_remember_token
-    cookies.permanent[:remember_token] = remember_token
+    if(permanent_login == '1')
+      flash[:success] = 'Successfully logged in!  To sign out you must click the signout button.'
+      cookies.permanent[:remember_token] = remember_token
+    else
+      flash[:success] = 'Successfully logged in!'
+      cookies[:remember_token] = { value: remember_token, expires: 1.hour.from_now }
+    end
     user.update_attribute(:remember_token, User.encrypt(remember_token))
     self.current_user = user
   end

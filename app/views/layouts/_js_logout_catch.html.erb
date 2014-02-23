@@ -1,0 +1,16 @@
+<script type=”text/javascript”>
+
+window.onbeforeunload = function (){
+alert('should log you out');
+$.ajax({
+url: “<%= sessions_path %>”,
+type: “POST”,
+data: {},
+contentType: “application/json; charset=utf-8″,
+dataType: “json”
+
+});
+
+};
+
+</script>
