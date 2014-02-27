@@ -11,13 +11,19 @@ describe "Authentication" do
   end
 
   describe "signin" do
+    let(:user) { FactoryGirl.create(:user) }
     before { visit signin_path }
 
     describe "with invalid information" do
       before { click_button "Sign in" }
-
       it { should have_title('Sign in') }
+
       it { should have_selector('div.alert.alert-danger') }
+      it { should_not have_link('Users', href: users_path) }
+      it { should_not have_link('Profile', href: user_path(user)) }
+      it { should_not have_link('Settings',     href: edit_user_path(user)) }
+      it { should_not have_link('Sign out',     href: signout_path) }
+      it { should have_link('Sign in', href: signin_path) }
     end
 
     describe "after visiting another page" do
@@ -26,8 +32,7 @@ describe "Authentication" do
     end
 
     describe "with valid information" do
-      let(:user) { FactoryGirl.create(:user) }
-      before { valid_signin(user) }
+      before { sign_in(user) }
 
       it { should have_title(user.name) }
       it { should have_link('Users',        href: users_path) }
@@ -51,10 +56,11 @@ describe "Authentication" do
 
       describe "when attempting to visit a protected page" do
         before do
-          visit edit_user_path(user)
-          fill_in "Email",  with: user.email
-          fill_in "Password", with: user.password
-          click_button "Sign in"
+          sign_in(user, {requested_path: edit_user_path(user) } )
+ #         visit edit_user_path(user)
+ #         fill_in "Email",  with: user.email
+ #         fill_in "Password", with: user.password
+ #         click_button "Sign in"
         end
 
         describe "after signing in" do
@@ -100,6 +106,7 @@ describe "Authentication" do
         specify { expect(response).to redirect_to(root_path) }
       end
     end
+
     describe "as non-admin user" do
       let(:user) { FactoryGirl.create(:user) }
       let(:non_admin) { FactoryGirl.create(:user) }
@@ -108,6 +115,17 @@ describe "Authentication" do
 
       describe "submitting a DELETE request to the Users#destroy action" do
         before { delete user_path(user) }
+        specify { expect(response).to redirect_to(root_path) }
+      end
+    end
+
+    describe "as admin user" do
+      let(:admin_user) { FactoryGirl.create(:admin) }
+
+      before { sign_in admin_user, no_capybara: true }
+
+      describe "submitting a DELETE request to your own account" do
+        before { delete user_path(admin_user) }
         specify { expect(response).to redirect_to(root_path) }
       end
     end

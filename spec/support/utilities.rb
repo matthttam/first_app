@@ -9,11 +9,7 @@ def full_title(page_title)
   end
 end
 
-def valid_signin(user)
-  fill_in "Email",    with: user.email
-  fill_in "Password", with: user.password
-  click_button "Sign in"
-end
+
 
 RSpec::Matchers.define :have_error_message do |message|
   match do |page|
@@ -27,10 +23,17 @@ def sign_in(user, options={})
     remember_token = User.new_remember_token
     cookies[:remember_token] = remember_token
     user.update_attribute(:remember_token, User.encrypt(remember_token))
+  elsif options[:requested_path]
+    visit options[:requested_path]
+    do_sign_in_form(user)
   else
     visit signin_path
-    fill_in "Email",    with: user.email
-    fill_in "Password", with: user.password
-    click_button "Sign in"
+    do_sign_in_form(user)
   end
+end
+
+def do_sign_in_form(user)
+  fill_in "Email",    with: user.email
+  fill_in "Password", with: user.password
+  click_button "Sign in"
 end
