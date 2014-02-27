@@ -6,13 +6,15 @@ gem 'rails', '4.0.2'
 gem 'bootstrap-sass'
 #gem 'bootstrap_form' #https://github.com/bootstrap-ruby/rails-bootstrap-forms
 gem 'bcrypt-ruby'
-
-
+gem 'faker'
+gem 'will_paginate'
+gem 'bootstrap-will_paginate'
 gem 'sass-rails', '>= 3.2'
 gem 'uglifier', '2.4.0'
 gem 'coffee-rails', '4.0.1'
 gem 'jquery-rails', '3.1.0'
-gem 'turbolinks', '2.2.1'
+#gem 'jquery-turbolinks'
+#gem 'turbolinks', '2.2.1'
 gem 'jbuilder', '2.0.2'
 
 # Development Gems
