@@ -67,8 +67,7 @@ before_action :admin_user, only: :destroy
     end
 
     def signed_in_user_bad_page
-      puts("called")
-      redirect_to root_url
+      redirect_to root_url if signed_in?
     end
 
     def correct_user
