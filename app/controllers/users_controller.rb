@@ -13,6 +13,7 @@ before_action :admin_user, only: :destroy
 
   def show
     @user = User.find(params[:id])
+    @microposts = @user.microposts.paginate(page: params[:page])
   end
 
   def edit
@@ -58,17 +59,6 @@ before_action :admin_user, only: :destroy
     end
 
     # Before filters
-
-    def signed_in_user
-      unless signed_in?
-        store_location
-        redirect_to signin_url, warning: "Please sign in."
-      end
-    end
-
-    def signed_in_user_bad_page
-      redirect_to root_url if signed_in?
-    end
 
     def correct_user
       @user = User.find(params[:id])
