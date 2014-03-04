@@ -14,10 +14,17 @@ describe "Static pages" do
     describe "for signed-in users" do
       let(:user) { FactoryGirl.create(:user) }
       before do
-        FactoryGirl.create(:micropost, user: user, content: "Lorem ipsum")
-        FactoryGirl.create(:micropost, user: user, content: "Dolor sit amet")
         sign_in user
         visit root_path
+      end
+      it "should pluralize micropost count" do
+        expect(page).to have_selector( 'span', :text=> "0 microposts")
+        FactoryGirl.create(:micropost, user: user, content: "Lorem ipsum")
+        visit root_path
+        expect(page).to_not have_selector( 'span', :text=> "1 microposts")
+        FactoryGirl.create(:micropost, user: user, content: "Dolor sit amet")
+        visit root_path
+        expect(page).to have_selector( 'span', :text=> "2 microposts")
       end
 
       it "should render the user's feed" do
@@ -25,6 +32,23 @@ describe "Static pages" do
           expect(page).to have_selector("li##{item.id}", text: item.content)
         end
       end
+
+      describe "pagination" do
+        before do
+          31.times {FactoryGirl.create(:micropost, user: user) }
+          visit user_path(user)
+        end
+
+        it {should have_selector('div.pagination') }
+
+
+        it "should list each micropost" do
+          Micropost.paginate(page: 1).each do |micropost|
+            expect(page).to have_selector('li', text: micropost.content)
+          end
+        end
+      end
+
     end
   end
 
