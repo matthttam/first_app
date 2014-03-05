@@ -1,7 +1,19 @@
 <%= form_for(@micropost) do |f| %>
     <%= render 'shared/error_messages', object: f.object %>
         <div class="field">
-          <%= f.text_area :content, placeholder: "Compose new miropost..." %>
+          <%= f.text_area :content, placeholder: "Compose new miropost...", rows: 6, cols: 40 %>
+        <div id="micropost_characters_remaining"></div>
         </div>
     <%= f.submit "Post", class: "btn btn-large btn-primary" %>
 <% end %>
+<script>
+  $(function(){
+
+      $('#micropost_content').on('keyup', function(){
+          x = 140 - $(this).val().length
+          $('#micropost_characters_remaining').html("Characters Remaining " + ((x<0) ? x=0 : x) )
+      })
+      $('#micropost_content').keyup()
+  })
+
+</script>
